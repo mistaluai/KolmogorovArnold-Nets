@@ -17,11 +17,11 @@ class WeightedResidual(nn.Module):
         residual_variance (float): Stddev used to initialize residual weights w_b.
     """
 
-    def __init__(self, in_dim: int, out_dim: int, residual_variance: float = 0.1):
+    def __init__(self, in_dim: int, out_dim: int, residual_variance: float = 0.1, device="mps"):
         super().__init__()
         self.func = F.silu
-        self.wb = nn.Parameter(torch.Tensor(out_dim, in_dim))  # residual weights
-        self.ws = nn.Parameter(torch.Tensor(out_dim, in_dim))  # spline weights
+        self.wb = nn.Parameter(torch.Tensor(out_dim, in_dim)).to(device)  # residual weights
+        self.ws = nn.Parameter(torch.Tensor(out_dim, in_dim)).to(device)  # spline weights
         self._initialize(residual_variance)
 
     def _initialize(self, residual_variance: float = 0.1) -> None:

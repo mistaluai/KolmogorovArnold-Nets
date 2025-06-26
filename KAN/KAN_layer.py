@@ -54,6 +54,11 @@ class KANLayer(nn.Module):
             in_dim=in_dim,
             out_dim=out_dim,
         )
+        self.input_x = None
+        self.activations = None
+    def cache(self, x , activations):
+        self.input_x = x
+        self.activations = activations
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -67,7 +72,7 @@ class KANLayer(nn.Module):
         """
         spline = self.spline(x)  # Shape: (batch_size, out_dim, in_dim)
         phi = self.weighted_residual(x, spline)  # Same shape
-
+        self.cache(x, phi)
         out = torch.sum(phi, dim=-1)  # Sum over in_dim → (batch_size, out_dim)
         return out
 

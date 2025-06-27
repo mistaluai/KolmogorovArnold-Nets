@@ -91,7 +91,7 @@ def train(
         pred = model(x)
         train_loss = loss_fn(pred, y)
 
-        ent_l1_reg = regularization(model)
+        ent_l1_reg = regularization(model, device=device)
         loss = train_loss + reg_lambda * ent_l1_reg
 
         optimizer.zero_grad()

@@ -21,19 +21,17 @@ Given a set of knots $( t_0, t_1, \ldots, t_m )$, a **B-spline basis function** 
 
 - Base case:
 
-$
+```math
 B_{i,0}(x) = 
-\begin{cases}
-1 & \text{if } t_i \leq x < t_{i+1} \\
-0 & \text{otherwise}
-\end{cases}
-$
+  { 1\ if\ t_{i} ≤ x < t_{i+1}
+    0\ otherwise }
+```
 
 - Recursive case:
 
-$
-B_{i,k}(x) = \frac{x - t_i}{t_{i+k} - t_i} B_{i,k-1}(x) + \frac{t_{i+k+1} - x}{t_{i+k+1} - t_{i+1}} B_{i+1,k-1}(x)
-$
+```math
+B_{i,k}(x) = \frac{x - t_i}{t_{i+k} - t_i}e · B_{i,k−1}(x) + \frac{t_{i+k+1} - x}{t_{i+k+1} - t_{i+1}} · B_{i+1,k−1}(x)
+```
 
 KANs use these basis functions as **adaptive transformations** applied to each input dimension.  
 
@@ -44,19 +42,18 @@ Example Visualization for basis function:
 ### Model Forward Function
 
 A typical KAN layer output is:
-
-$
-y_j = \sum_{i=1}^d \sum_{b=1}^B w_{ijb} \, B_b(x_i)
-$
-
+```math
+y_j = \sum_{i=1}^{d} \sum_{b=1}^{B} w_{ijb} \cdot B_b(x_i) 
+``` 
 where:
 - $B_b(x_i)$ is the $( b^\text{th} )$ spline basis on input dimension $(x_i)$
 - $w_{ijb}$ are learnable weights
 - $d$ is input dimension, $B$ is number of basis per dimension  
 
-Model Results for $
-f(x, y) = \exp(\sin(\pi x) + y^2)
-$:
+Model Results for 
+```math
+f(x, y) = exp(sin(πx) + y²)
+```
 ![compare.png](plots/compare.png)
 
 ---
@@ -65,15 +62,15 @@ $:
 
 We train the KAN model to fit the synthetic function:
 
-$
-f(x, y) = \exp(\sin(\pi x) + y^2)
-$
+```math
+f(x, y) = exp(sin(πx) + y²)
+```
 
 The loss combines **MSE** and a regularization term on spline smoothness:
 
-$
-\mathcal{L} = \text{MSE}(f_{\text{KAN}}, f_{\text{true}}) + \lambda \cdot \text{Reg}
-$ 
+```math
+𝓛 = MSE(f_{KAN}, f_{true}) + λ · Reg
+```
 
 ![results.png](plots/results.png)
 ---

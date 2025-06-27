@@ -15,14 +15,14 @@ def f(input):
 device = "mps"
 
 model = KAN(
-    layer_dimensions=[2, 32, 1],
-    k=3,
-    G=5,
+    layer_dimensions=[2, 5, 3, 2, 1],
+    k=4,
+    G=10,
     G_interval=[-1.0, 1.0],
     device=device,
 ).to(device)
 
-results = train(model, f, device=device, steps=1000, batch_size=256)
+results = train(model, f, device=device, steps=2000, batch_size=512)
 visualize_results(results)
 plot_against_groundtruth(model, f, device=device)
 plot(model)

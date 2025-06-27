@@ -1,3 +1,6 @@
 /.idea
 /bspline/__pycache__
 *.pyc
+/figures
+*.pth
+*.pth

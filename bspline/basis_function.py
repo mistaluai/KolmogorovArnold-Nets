@@ -7,7 +7,6 @@ def calculate_bspline(
     x: torch.Tensor,
     grid: torch.Tensor,
     k: int,
-    device: torch.device
 ) -> torch.Tensor:
     """
     Compute B-spline basis functions of order `k` for each input in `x`
@@ -25,10 +24,10 @@ def calculate_bspline(
                       the evaluated basis functions for each input dimension and output channel.
     """
     # Shape (1, out_dim, in_dim, G + 2k + 1)
-    grid = grid.unsqueeze(0).to(device=device)
+    grid = grid.unsqueeze(0)
 
     # Shape (batch_size, 1, in_dim, 1)
-    x = x.unsqueeze(1).unsqueeze(-1).to(device=device)
+    x = x.unsqueeze(1).unsqueeze(-1)
 
     # Base case: B_i^0(x) = 1 if x in [t_i, t_{i+1}], else 0
     bases = (x >= grid[:, :, :, :-1]) & (x <= grid[:, :, :, 1:])
@@ -58,8 +57,6 @@ def calculate_bspline(
 
 
 if __name__ == "__main__":
-    device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-
     # Test example
     k = 3
     G = 5
@@ -69,11 +66,10 @@ if __name__ == "__main__":
         high=1,
         k=k,
         G=G,
-        device=device,
         in_dim=x.size(1),
         out_dim=1
     )
 
-    basis_values = calculate_bspline(x, grid, k, device)
+    basis_values = calculate_bspline(x, grid, k)
     print(basis_values)
     visualize_bspline_basis(x, basis_values)

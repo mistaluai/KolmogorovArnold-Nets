@@ -30,10 +30,9 @@ class KAN(nn.Module):
                 G=G,
                 g_low=G_interval[0],
                 g_high=G_interval[1],
-                device=device,
             )
             self.layers.add_module(f"KANLayer({layer.in_dim},{layer.out_dim})",layer)
-
+        self.to(device)
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         Forward pass through the stacked KAN layers.

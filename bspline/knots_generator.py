@@ -8,7 +8,6 @@ def generate_knots(
     G: int,
     in_dim: int,
     out_dim: int,
-    device: torch.device
 ) -> torch.Tensor:
     """
     Generate a 3D tensor of B-spline control points (knots) for a given input and output dimension.
@@ -30,7 +29,7 @@ def generate_knots(
         torch.Tensor: A tensor of shape (out_dim, in_dim, G + 2k + 1) containing the grid points.
     """
     step = (high - low) / G
-    grid = torch.arange(-k, G + k + 1, device=device)
+    grid = torch.arange(-k, G + k + 1)
     grid = grid * step + low
     grid = grid[None, None, :].expand(out_dim, in_dim, -1).contiguous()
     return grid
@@ -45,6 +44,5 @@ if __name__ == '__main__':
         G=10,
         in_dim=3,
         out_dim=1,
-        device=device
     )
     print(grid)

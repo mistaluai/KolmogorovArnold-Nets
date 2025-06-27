@@ -31,14 +31,12 @@ class KANLayer(nn.Module):
         G: int,
         g_low: float,
         g_high: float,
-        device: torch.device,
     ):
         super().__init__()
         self.in_dim = in_dim
         self.out_dim = out_dim
         self.k = k
         self.G = G
-        self.device = device
 
         self.spline = Spline(
             in_dim=in_dim,
@@ -47,7 +45,6 @@ class KANLayer(nn.Module):
             G=G,
             g_low=g_low,
             g_high=g_high,
-            device=device,
         )
 
         self.weighted_residual = WeightedResidual(

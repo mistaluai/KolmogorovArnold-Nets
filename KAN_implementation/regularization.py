@@ -4,9 +4,9 @@ from KAN_implementation.KAN_layer import KANLayer
 from KAN_implementation.KAN_model import KAN
 
 
-def l1_regularization(model: KAN):
+def l1_regularization(model: KAN, device):
     layers: list[KANLayer] = model.layers
-    l1 = torch.tensor(0.)
+    l1 = torch.tensor(0.).to(device)
     for layer in layers:
         activations = layer.activations
         abs_activations = torch.abs(activations)
@@ -16,8 +16,8 @@ def l1_regularization(model: KAN):
 
     return l1
 
-def entropy_regularization(model: KAN):
-    reg = torch.tensor(0.)
+def entropy_regularization(model: KAN, device):
+    reg = torch.tensor(0.).to(device)
     eps = 1e-4
     layers: list[KANLayer] = model.layers
     for layer in layers:
@@ -34,8 +34,9 @@ def entropy_regularization(model: KAN):
 
 def regularization(model: KAN,
                    l1_weight: float=1,
-                   entropy_weight: float=1):
-    l1 = l1_regularization(model)
-    entropy = entropy_regularization(model)
-    
+                   entropy_weight: float=1,
+                   device="mps"):
+    l1 = l1_regularization(model, device)
+    entropy = entropy_regularization(model, device)
+
     return l1_weight * l1 + entropy_weight * entropy

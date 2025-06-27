@@ -28,12 +28,10 @@ class Spline(nn.Module):
         G: int,
         g_low: float,
         g_high: float,
-        device: torch.device,
     ):
         super(Spline, self).__init__()
 
         self.k = k
-        self.device = device
         self.activation = calculate_bspline
 
         # Create and register grid (knot) points
@@ -44,7 +42,6 @@ class Spline(nn.Module):
             G=G,
             in_dim=in_dim,
             out_dim=out_dim,
-            device=device
         )
         self.register_buffer("grid", grid)
 
@@ -67,7 +64,7 @@ class Spline(nn.Module):
         Returns:
             torch.Tensor: Output tensor of shape (batch_size, out_dim)
         """
-        bases = self.activation(x, self.grid, self.k, self.device)  # (bsz, out_dim, in_dim, G+k)
+        bases = self.activation(x, self.grid, self.k)  # (bsz, out_dim, in_dim, G+k)
         weighted = bases * self.coeff[None, ...]  # Broadcasting coefficients
         output = torch.sum(weighted, dim=-1)  # Sum over basis functions: shape (bsz, out_dim, in_dim)
         return output

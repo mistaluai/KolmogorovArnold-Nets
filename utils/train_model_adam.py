@@ -117,7 +117,7 @@ def train(
         results["test_loss"].append(test_loss.item())
         results["best_test_loss"].append(best_test_loss.item())
         results["regularization"].append(ent_l1_reg.item())
-
+    model.load_state_dict(torch.load(save_path))
     return results
 
 if __name__ == "__main__":

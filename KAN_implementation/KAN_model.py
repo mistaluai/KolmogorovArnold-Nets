@@ -18,6 +18,7 @@ class KAN(nn.Module):
 
     def __init__(self, layer_dimensions: list[int], k: int, G: int, G_interval: list[float], device: torch.device):
         super().__init__()
+        self.layer_widths = layer_dimensions
         self.layers = nn.ModuleList()
         in_channels = layer_dimensions[:-1]
         out_channels = layer_dimensions[1:]
@@ -31,7 +32,7 @@ class KAN(nn.Module):
                 g_low=G_interval[0],
                 g_high=G_interval[1],
             )
-            self.layers.add_module(f"KANLayer({layer.in_dim},{layer.out_dim})",layer)
+            self.layers.append(layer)
         self.to(device)
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """

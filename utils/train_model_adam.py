@@ -8,6 +8,8 @@ from tqdm import tqdm
 from KAN_implementation.KAN_model import KAN
 from KAN_implementation.regularization import regularization
 from utils.create_dataset import create_dataset
+from utils.visualize_results import visualize_results, plot_against_groundtruth
+
 
 def train(
     model: KAN,
@@ -119,19 +121,22 @@ def train(
     return results
 
 if __name__ == "__main__":
-    # Example target function: f(x, y) = sin(x) * cos(y)
-    def f(x):
-        return torch.sin(x[:, [0]]) * torch.cos(x[:, [1]])
+    def f(input):
+        x = input[:, 0]
+        y = input[:, 1]
+        return torch.exp(torch.sin(torch.pi * x) + y ** 2).unsqueeze(1)
 
 
     device = "mps"
 
     model = KAN(
-        layer_dimensions=[2, 32, 1],
+        layer_dimensions=[2, 32, 64, 32, 1],
         k=3,
         G=5,
         G_interval=[-1.0, 1.0],
         device=device,
     ).to(device)
 
-    train(model, f, device=device, steps=2000, batch_size=64)
+    results = train(model, f, device=device, steps=5000, batch_size=256)
+    visualize_results(results)
+    plot_against_groundtruth(model, f, device=device)

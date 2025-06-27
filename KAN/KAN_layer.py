@@ -60,6 +60,9 @@ class KANLayer(nn.Module):
         self.input_x = x
         self.activations = activations
 
+    def __repr__(self):
+        return f"KANLayer(in_dim={self.in_dim}, out_dim={self.out_dim}, k={self.k}, G={self.G})"
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         Forward pass of the KAN layer.

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from KAN.KAN_layer import KANLayer
+from KAN_implementation.KAN_layer import KANLayer
 
 
 class KAN(nn.Module):

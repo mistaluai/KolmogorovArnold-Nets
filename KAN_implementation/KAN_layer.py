@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 
-from KAN.spline_layer import Spline
-from KAN.weighted_residual import WeightedResidual
+from KAN_implementation.spline_layer import Spline
+from KAN_implementation.weighted_residual import WeightedResidual
 
 
 class KANLayer(nn.Module):

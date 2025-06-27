@@ -32,7 +32,7 @@ class KAN(nn.Module):
                 g_high=G_interval[1],
                 device=device,
             )
-            self.layers.append(layer)
+            self.layers.add_module(f"KANLayer({layer.in_dim},{layer.out_dim})",layer)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -64,4 +64,5 @@ if __name__ == "__main__":
     G_interval = [-1.0, 1.0]
 
     model = KAN(dimensions, k, G, G_interval, device)
-    print(model)
+    for name, parameter in model.named_parameters():
+        print(name, parameter)

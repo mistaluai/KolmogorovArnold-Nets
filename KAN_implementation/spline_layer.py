@@ -49,7 +49,7 @@ class Spline(nn.Module):
         self.register_buffer("grid", grid)
 
         # Learnable coefficients for B-spline basis
-        self.coeff = nn.Parameter(torch.empty(out_dim, in_dim, G + k)).to(self.device)
+        self.coeff = nn.Parameter(torch.empty(out_dim, in_dim, G + k))
 
         self._initialize()
 
